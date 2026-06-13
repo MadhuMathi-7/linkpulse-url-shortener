@@ -265,6 +265,26 @@ Hackathon/
 ### AI Planning Document
 Our development was guided by the AI [implementation plan](file:///C:/Users/HP/.gemini/antigravity-ide/brain/d84539ab-4454-46eb-aa83-bd8e17c466cc/implementation_plan.md) and task tracker checklist.
 
+This project was developed using an AI-assisted workflow.
+
+Planning Phase:
+Designed the system architecture.
+Identified mandatory and bonus requirements.
+Modeled MongoDB schemas.
+Defined REST APIs.
+
+Development Phase:
+Built backend services.
+Implemented frontend dashboard.
+Integrated analytics tracking.
+Added bonus features.
+
+Testing Phase:
+Verified authentication.
+Tested URL redirects.
+Validated analytics recording.
+Ensured responsive UI behavior.
+
 ### Sample Prompts Used
 - *Scaffold a Vite React application with template React and configure dark theme properties.*
 - *Generate a seeder script that populates Mongoose databases with mock redirect details.*
