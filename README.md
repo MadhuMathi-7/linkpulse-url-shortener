@@ -5,53 +5,70 @@ LinkPulse is a production-grade, full-stack SaaS URL Shortener platform built wi
 ---
 
 ## 🏗️ Architecture Diagram
-```mermaid
-graph TD
-    %% Frontend Client
-    subgraph Client [Client - React/Vite]
-        Landing[Landing Page]
-        Auth[Auth Pages: Login/Signup]
-        Dash[Dashboard]
-        Anal[Analytics Page]
-        Stats[Public Stats Page]
-    end
+┌──────────────────────────────────────────────────────────┐
+│                      👤 USERS                            │
+│          Web Browser / Mobile Browser Users             │
+└───────────────────────┬──────────────────────────────────┘
+                        │
+                        ▼
+┌──────────────────────────────────────────────────────────┐
+│                  🌐 REACT FRONTEND                      │
+│                                                          │
+│  • Landing Page                                          │
+│  • Login / Signup                                        │
+│  • Protected Dashboard                                   │
+│  • URL Management                                        │
+│  • Analytics Dashboard                                   │
+│  • Public Stats Page                                     │
+│  • CSV Upload                                            │
+└───────────────────────┬──────────────────────────────────┘
+                        │
+                REST API Calls
+                        │
+                        ▼
+┌──────────────────────────────────────────────────────────┐
+│              ⚡ NODE.JS + EXPRESS BACKEND               │
+│                                                          │
+│  🔐 JWT Authentication Service                           │
+│  🔗 URL Shortening Service                               │
+│  ↪ Redirect Handler                                      │
+│  📊 Analytics Service                                    │
+│  📂 Bulk CSV Processing                                  │
+│  📱 QR Code Generator                                    │
+│  🛡 Validation & Security Middleware                     │
+└─────────────┬─────────────────────┬─────────────────────┘
+              │                     │
+              │                     │
+              ▼                     ▼
+┌──────────────────┐      ┌──────────────────────────────┐
+│ 🍃 MongoDB Atlas │      │       Analytics Engine       │
+│                  │      │                              │
+│  Users           │      │  • Click Tracking            │
+│  URLs            │◄────►│  • Device Analytics          │
+│  Visits          │      │  • Browser Analytics         │
+│                  │      │  • Geolocation Analytics     │
+└─────────┬────────┘      │  • Daily Click Trends        │
+          │               └──────────────┬───────────────┘
+          │                              │
+          ▼                              ▼
+┌──────────────────────────────────────────────────────────┐
+│                  📈 ANALYTICS DASHBOARD                 │
+│                                                          │
+│  • Total Clicks                                          │
+│  • Last Visit                                            │
+│  • Recent Visits                                         │
+│  • Browser Distribution                                  │
+│  • Device Distribution                                   │
+│  • Daily Trends Charts                                   │
+└──────────────────────────────────────────────────────────┘
 
-    %% Backend Server
-    subgraph Server [Server - Express.js]
-        Router[API Router]
-        AuthCtrl[Auth Controller]
-        UrlCtrl[URL Controller]
-        AnalCtrl[Analytics Controller]
-        RedirectMiddleware[Redirection Logic & Click Tracking]
-    end
+────────────────────────────────────────────────────────────
 
-    %% Database
-    subgraph Database [MongoDB Atlas]
-        Users[(Users Collection)]
-        Urls[(URLs Collection)]
-        Visits[(Visits Collection)]
-    end
+Deployment Architecture
 
-    %% Data Flow
-    Landing -->|Browse| Client
-    Auth -->|Credentials| Router
-    Router -->|Verify & Hash| AuthCtrl
-    AuthCtrl -->|Read/Write| Users
-    
-    Dash -->|Create URL / Upload CSV| Router
-    Router -->|Generate NanoID & QR Code| UrlCtrl
-    UrlCtrl -->|Create/Read/Update/Delete| Urls
-
-    Anal -->|Fetch Chart Data| Router
-    Router -->|Aggregations| AnalCtrl
-    AnalCtrl -->|Query| Visits
-
-    %% Redirection Flow
-    ShortLink[GET /:shortCode] -->|Redirect Request| RedirectMiddleware
-    RedirectMiddleware -->|Lookup URL| Urls
-    RedirectMiddleware -->|IP & User-Agent Parsing| RedirectMiddleware
-    RedirectMiddleware -->|Save Analytics Record| Visits
-    RedirectMiddleware -->|302 Redirect| LongURL[Target Destination URL]
+▲ Vercel        → React Frontend
+🚀 Render        → Express Backend
+🍃 MongoDB Atlas → Database Hosting
 
 ## 🌟 Key Features
 
